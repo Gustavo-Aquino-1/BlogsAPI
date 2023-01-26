@@ -1,4 +1,4 @@
-const { BlogPost, Category, PostCategory } = require('../models');
+const { BlogPost, Category, PostCategory, User } = require('../models');
 
 const create = async (id, body) => {
   const { title, content, categoryIds } = body;
@@ -17,18 +17,36 @@ const create = async (id, body) => {
 
   const newPost = await BlogPost.create({ title, content, userId: id });
 
-  const createdPost = await BlogPost.findByPk(newPost.id);
-
-  const postId = 'post_id';
-  const categoryId = 'category_id';
-
-  const objects = categoryIds.map((e) => ({ [postId]: createdPost.id, [categoryId]: +e }));
+  const objects = categoryIds.map((e) => ({
+    // tive que colocar o underline manulamente pois o underscored nao esta funcionando nesta model!
+    [`${'post_id'}`]: newPost.id,
+    [`${'category_id'}`]: +e,
+  }));
 
   await PostCategory.bulkCreate(objects);
 
-  return { type: 201, message: createdPost };
+  return { type: 201, message: newPost };
+};
+
+const getAll = async () => {
+  const posts = await BlogPost.findAll({
+    include: [
+      {
+        model: User,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      },
+      {
+        model: Category,
+        as: 'categories',
+        through: { attributes: [] },
+      },
+    ],
+  });
+  return { type: 200, message: posts };
 };
 
 module.exports = {
   create,
+  getAll,
 };

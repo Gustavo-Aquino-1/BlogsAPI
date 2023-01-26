@@ -6,4 +6,6 @@ const router = Router();
 
 router.post('/post', mid.validateToken, mid.createPost, postController.create);
 
+router.get('/post', mid.validateToken, postController.getAll);
+
 module.exports = router;
