@@ -19,14 +19,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     published: {
       allowNull: false,
-      type: DataTypes.DATE
+      type: DataTypes.DATE,
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
     },
     updated: {
       allowNull: false,
-      type: DataTypes.DATE
+      type: DataTypes.DATE,
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
     }
   }, {
-    timestams: false,
+    timestamps: false,
     underscored: true,
     tableName: 'blog_posts'
   });
