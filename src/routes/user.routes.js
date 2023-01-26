@@ -8,4 +8,6 @@ router.post('/login', mid.validateLogin, userController.userLogin);
 
 router.post('/user', userController.create);
 
+router.get('/user', mid.validateToken, userController.getAll);
+
 module.exports = router;

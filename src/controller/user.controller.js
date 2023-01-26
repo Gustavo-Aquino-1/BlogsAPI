@@ -12,7 +12,13 @@ const create = async (req, res) => {
   res.status(type).json(message);
 };
 
+const getAll = async (_req, res) => {
+  const { type, message } = await userService.getAll();
+  res.status(type).json(message);
+};
+
 module.exports = {
   userLogin,
   create,
+  getAll,
 };
