@@ -6,4 +6,6 @@ const router = Router();
 
 router.post('/categories', mid.validateToken, categoryController.create);
 
+router.get('/categories', mid.validateToken, categoryController.getAll);
+
 module.exports = router;
