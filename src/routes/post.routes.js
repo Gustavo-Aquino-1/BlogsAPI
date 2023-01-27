@@ -10,4 +10,11 @@ router.get('/post', mid.validateToken, postController.getAll);
 
 router.get('/post/:id', mid.validateToken, postController.getById);
 
+router.put(
+  '/post/:id',
+  mid.validateToken,
+  mid.updatePost,
+  postController.update,
+);
+
 module.exports = router;

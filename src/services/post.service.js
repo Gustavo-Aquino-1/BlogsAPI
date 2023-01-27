@@ -65,8 +65,30 @@ const getById = async (id) => {
   return { type: 200, message: post };
 };
 
+const update = async (id, body) => {
+  const { title, content, userId } = body;
+
+  const postToUpdate = await getById(id);
+
+  if (postToUpdate.message.userId !== userId) {
+    return { type: 401, message: 'Unauthorized user' };
+  }
+
+  await BlogPost.update(
+    { title, content },
+    {
+      where: { id },
+    },
+  );
+
+  const upatedPost = await getById(id);
+
+  return { type: 200, message: upatedPost.message };
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };
