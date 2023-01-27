@@ -1,4 +1,12 @@
-const { BlogPost, Category, PostCategory, User } = require('../models');
+const {
+  BlogPost,
+  Category,
+  PostCategory,
+  User,
+  Sequelize,
+} = require('../models');
+
+const { Op } = Sequelize;
 
 const create = async (id, body) => {
   const { title, content, categoryIds } = body;
@@ -102,10 +110,30 @@ const remove = async (id, userId) => {
   return { type: 204, message: '' };
 };
 
+const search = async (query) => {
+  if (!query) return { type: 200, message: await (await getAll()).message };
+  const findQuery = `%${query}%`;
+  let posts = await BlogPost.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.like]: findQuery } },
+        { content: { [Op.like]: findQuery } },
+      ],
+    },
+  });
+
+  if (posts.length > 0) {
+    posts = await Promise.all(posts.map(async (e) => (await getById(e.id)).message));
+  }
+  
+  return { type: 200, message: posts };
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
   remove,
+  search,
 };
