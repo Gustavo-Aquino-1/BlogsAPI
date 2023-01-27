@@ -17,4 +17,6 @@ router.put(
   postController.update,
 );
 
+router.delete('/post/:id', mid.validateToken, postController.remove);
+
 module.exports = router;
