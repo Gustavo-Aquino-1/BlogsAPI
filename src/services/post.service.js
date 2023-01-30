@@ -54,20 +54,8 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  const post = await BlogPost.findByPk(id, {
-    include: [
-      {
-        model: User,
-        as: 'user',
-        attributes: { exclude: ['password'] },
-      },
-      {
-        model: Category,
-        as: 'categories',
-        through: { attributes: [] },
-      },
-    ],
-  });
+  const { message } = await getAll();
+  const post = message.find((e) => +e.id === +id);
   if (!post) return { type: 404, message: 'Post does not exist' };
   return { type: 200, message: post };
 };
