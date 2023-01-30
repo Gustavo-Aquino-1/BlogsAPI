@@ -27,8 +27,8 @@ const create = async (id, body) => {
 
   const objects = categoryIds.map((e) => ({
     // tive que colocar o underline manulamente pois o underscored nao esta funcionando nesta model!
-    [`${'post_id'}`]: newPost.id,
-    [`${'category_id'}`]: +e,
+    postId: newPost.id,
+    categoryId: +e,
   }));
 
   await PostCategory.bulkCreate(objects);

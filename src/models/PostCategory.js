@@ -16,15 +16,15 @@ module.exports = (sequelize, DataTypes) => {
     BlogPost.belongsToMany(Category, {
       as: 'categories',
       through: PostCategory,
-      foreignKey: 'post_id',
-      otherKey: 'category_id',
+      foreignKey: 'postId',
+      otherKey: 'categoryId',
     });
 
     Category.belongsToMany(BlogPost, {
       as: 'posts',
       through: PostCategory,
-      foreignKey: 'category_id',
-      otherKey: 'post_id',
+      foreignKey: 'categoryId',
+      otherKey: 'postId', // quando usa o underscoed true , aqui nao pdoe deixar em underline se nao da erro deixa em camel case mesmo , que o proprio seuqelize converte
     });
   };
 
