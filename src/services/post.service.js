@@ -15,18 +15,17 @@ const create = async (id, body) => {
     message: 'one or more "categoryIds" not found',
   };
 
-  if (categoryIds.length === 0) return invalidIds;
-
   const existsAllCategories = await Promise.all(
     categoryIds.map(async (e) => Category.findByPk(e)),
   );
 
-  if (existsAllCategories.some((e) => e === null)) return invalidIds;
+  if (existsAllCategories.some((e) => e === null) || categoryIds.length === 0) {
+    return invalidIds;
+  }
 
   const newPost = await BlogPost.create({ title, content, userId: id });
 
   const objects = categoryIds.map((e) => ({
-    // tive que colocar o underline manulamente pois o underscored nao esta funcionando nesta model!
     postId: newPost.id,
     categoryId: +e,
   }));
@@ -123,9 +122,11 @@ const search = async (query) => {
   });
 
   if (posts.length > 0) {
-    posts = await Promise.all(posts.map(async (e) => (await getById(e.id)).message));
+    posts = await Promise.all(
+      posts.map(async (e) => (await getById(e.id)).message),
+    );
   }
-  
+
   return { type: 200, message: posts };
 };
 
