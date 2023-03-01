@@ -62,8 +62,9 @@ Nessa projeto foi realizada a construção de uma API rest, que permiti fazer o 
   
   <ul>
     <br />
+    <li> Javascript </li>
     <li> Express </li>
-     <li> Sequelize </li>
+    <li> Sequelize </li>
     <li> Json web token (JWT) </li>
     <li> Docker </li>
   </ul>
